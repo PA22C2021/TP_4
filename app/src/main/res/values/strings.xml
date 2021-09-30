@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TP_4</string>
+    <string name="title">TP4</string>
+    <string name="tab_text_1">ALTA</string>
+    <string name="tab_text_2">MODIFICACION</string>
+    <string name="tab_text_3">LISTADO</string>
+</resources>
