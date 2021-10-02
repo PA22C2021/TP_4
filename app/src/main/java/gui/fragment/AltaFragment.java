@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.EditText;
 
 import com.example.tp_4.R;
 import com.example.tp_4.domain.BaseDatos;
@@ -23,8 +24,9 @@ import com.example.tp_4.domain.Categoria;
  */
 public class AltaFragment extends Fragment {
 
-    Spinner spCategoriaAlta;
-    Button btnAgregar;
+    private EditText et_id, et_nombre, et_stock;
+    private Spinner spCategoriaAlta;
+    private Button btnAgregar;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,6 +77,9 @@ public class AltaFragment extends Fragment {
 
         // Me traigo el control del fragment.
         btnAgregar = (Button) view.findViewById(R.id.btnAlta);
+        et_id = (EditText) view.findViewById(R.id.etIdAlta);
+        et_nombre = (EditText) view.findViewById(R.id.etNombreAlta);
+        et_stock = (EditText) view.findViewById(R.id.etStockAlta);
         spCategoriaAlta = (Spinner) view.findViewById(R.id.spCategoriaAlta);
 
         SetCategoriasSpinner(view);
@@ -96,11 +101,47 @@ public class AltaFragment extends Fragment {
 
     public void AgregarProducto(View view)
     {
-        // TODO: Agregar validaciones
+        // TODO: Validar si existe el ID en la BBDD
+        if(ValidateFields(view)){
+            // TODO: Grabar en base de datos
+            Toast.makeText(view.getContext(), "Producto agregado", Toast.LENGTH_SHORT).show();
 
-        // TODO: Grabar en base de datos
-        Toast.makeText(view.getContext(), "Producto agregado", Toast.LENGTH_SHORT).show();
+            ClearFields();
+        }
+    }
 
-        // Todo: Limpiar campos
+    private boolean ValidateFields(View view){
+        boolean valid = true;
+        if(et_id.getText().toString().isEmpty() && et_nombre.getText().toString().isEmpty() &&
+                et_stock.getText().toString().isEmpty() && spCategoriaAlta.getSelectedItem().toString().isEmpty()){
+            Toast.makeText(view.getContext(),"Debe completar los campos requeridos", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        if(et_id.getText().toString().isEmpty()){
+            Toast.makeText(view.getContext(),"Debe completar el id del prducto", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }else{
+            if(new BaseDatos().ValidateExistID(et_id.getText().toString())){
+                Toast.makeText(view.getContext(),"El id ingresado ya existe", Toast.LENGTH_SHORT).show();
+                valid = false;
+            }
+        }
+
+        if(et_nombre.getText().toString().isEmpty()){
+            Toast.makeText(view.getContext(),"Debe completar nombre del prducto", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        if(et_stock.getText().toString().isEmpty()){
+            Toast.makeText(view.getContext(),"Debe completar stock del prducto", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        return valid;
+    }
+
+    private void ClearFields(){
+        et_id.setText("");
+        et_nombre.setText("");
+        et_stock.setText("");
+        spCategoriaAlta.setSelection(-1);
     }
 }

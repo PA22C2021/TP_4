@@ -71,4 +71,8 @@ public class BaseDatos
 
         return categoria;
     }
+
+    public boolean ValidateExistID(String toString) {
+        return false;
+    }
 }
