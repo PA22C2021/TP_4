@@ -135,6 +135,10 @@ public class AltaFragment extends Fragment {
             Toast.makeText(view.getContext(),"Debe completar stock del prducto", Toast.LENGTH_SHORT).show();
             valid = false;
         }
+        if(spCategoriaAlta.getSelectedItem().toString().isEmpty()){
+            Toast.makeText(view.getContext(),"Debe seleccionar la categoria del prducto", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
         return valid;
     }
 

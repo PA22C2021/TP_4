@@ -140,11 +140,41 @@ public class ModificacionFragment extends Fragment {
             return;
         }
 
-        // TODO: Agregar otras validaciones
+        if(ValidateFields(view)){
+            // TODO: Grabar en base de datos
+            Toast.makeText(view.getContext(), "Producto modificado", Toast.LENGTH_SHORT).show();
 
-        // TODO: Grabar en base de datos
-        Toast.makeText(view.getContext(), "Producto modificado", Toast.LENGTH_SHORT).show();
+            ClearFields();
+        }
+    }
 
-        // Todo: Limpiar campos
+    private boolean ValidateFields(View view){
+        boolean valid = true;
+        if(etNombreProducto.getText().toString().isEmpty() && etStock.getText().toString().isEmpty() && spCategoriaEdicion.getSelectedItem().toString().isEmpty()){
+            Toast.makeText(view.getContext(),"Debe completar los campos requeridos", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+
+        if(etNombreProducto.getText().toString().isEmpty()){
+            Toast.makeText(view.getContext(),"Debe completar nombre del prducto", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        if(etStock.getText().toString().isEmpty()){
+            Toast.makeText(view.getContext(),"Debe completar stock del prducto", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        if(spCategoriaEdicion.getSelectedItem().toString().isEmpty()){
+            Toast.makeText(view.getContext(),"Debe seleccionar la categoria del prducto", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    private void ClearFields(){
+        etIdModificacion.setText("");
+        etNombreProducto.setText("");
+        etStock.setText("");
+        spCategoriaEdicion.setSelection(-1);
     }
 }
