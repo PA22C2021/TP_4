@@ -4,4 +4,12 @@
     <string name="tab_text_1">ALTA</string>
     <string name="tab_text_2">MODIFICACION</string>
     <string name="tab_text_3">LISTADO</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="label_id">Id</string>
+    <string name="label_nombre">Nombre producto</string>
+    <string name="label_stock">Stock</string>
+    <string name="label_categoria">Categoria</string>
+    <string name="btn_agregar">Agregar</string>
+    <string name="btn_modificar">Modificar</string>
+    <string name="btn_buscar">Buscar</string>
 </resources>

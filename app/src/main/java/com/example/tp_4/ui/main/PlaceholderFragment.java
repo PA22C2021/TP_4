@@ -15,6 +15,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.tp_4.R;
 import com.example.tp_4.databinding.FragmentMainBinding;
 
+import gui.fragment.AltaFragment;
+import gui.fragment.ListadoFragment;
+import gui.fragment.ModificacionFragment;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -25,11 +29,17 @@ public class PlaceholderFragment extends Fragment {
     private PageViewModel pageViewModel;
     private FragmentMainBinding binding;
 
-    public static PlaceholderFragment newInstance(int index) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
+    public static Fragment newInstance(int index) {
+
+        Fragment fragment = null;
+
+        switch (index)
+        {
+            case 1: fragment = new AltaFragment(); break;
+            case 2: fragment = new ModificacionFragment(); break;
+            case 3: fragment = new ListadoFragment(); break;
+        }
+
         return fragment;
     }
 
@@ -52,13 +62,6 @@ public class PlaceholderFragment extends Fragment {
         binding = FragmentMainBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.sectionLabel;
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         return root;
     }
 
