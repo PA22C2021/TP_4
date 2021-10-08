@@ -17,6 +17,10 @@ import com.example.tp_4.R;
 import com.example.tp_4.domain.BaseDatos;
 import com.example.tp_4.domain.Categoria;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AltaFragment#newInstance} factory method to
@@ -83,6 +87,13 @@ public class AltaFragment extends Fragment {
         spCategoriaAlta = (Spinner) view.findViewById(R.id.spCategoriaAlta);
 
         SetCategoriasSpinner(view);
+
+        try {
+            Connection conectionBD = DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com:3306/sql10442660", "sql10442660", "5vu3EXhTp4");
+        } catch (SQLException throwables)
+        {
+            Toast.makeText(view.getContext(), throwables.toString(), Toast.LENGTH_SHORT).show();
+        }
 
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
