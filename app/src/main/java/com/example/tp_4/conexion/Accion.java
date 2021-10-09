@@ -4,5 +4,6 @@ public enum Accion
 {
     Alta,
     Edicion,
-    GetId
+    GetId,
+    ValidateID
 }

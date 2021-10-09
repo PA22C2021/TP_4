@@ -33,6 +33,13 @@ public class ProductoABM extends AsyncTask<String, Void, String> {
         this.accion = accion;
     }
 
+    public ProductoABM(Accion accion, Context ct, EditText etId)
+    {
+        this.context = ct;
+        this.etId = etId;
+        this.accion = accion;
+    }
+
     @Override
     protected String doInBackground(String... strings) {
         String response = "";
@@ -41,6 +48,18 @@ public class ProductoABM extends AsyncTask<String, Void, String> {
             Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             Statement st = con.createStatement();
 
+            if(accion == Accion.ValidateID){
+                ResultSet rs = st.executeQuery("SELECT * FROM articulo WHERE id = " + etId.getText());
+                result2 = " ";
+
+                while(rs.next()) {
+                    producto = new Producto();
+                    producto.setId(rs.getInt("id"));
+                    producto.setName(rs.getString("nombre"));
+                    producto.setStock(rs.getInt("stock"));
+                    producto.setIdCategoria(rs.getInt("idCategoria"));
+                }
+            }
             if (accion == Accion.GetId)
             {
                 ResultSet rs = st.executeQuery("SELECT * FROM articulo WHERE id = " + etId.getText());
@@ -87,6 +106,12 @@ public class ProductoABM extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String response) {
 
+        if(accion == Accion.ValidateID){
+            if (producto != null)
+            {
+                Toast.makeText(context, "El producto (" + etId.getText() + ") ya se encuentra registrado.", Toast.LENGTH_SHORT).show();
+            }
+        }
         if (accion == Accion.GetId)
         {
             if (producto == null)

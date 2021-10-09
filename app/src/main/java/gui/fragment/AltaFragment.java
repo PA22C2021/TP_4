@@ -121,7 +121,7 @@ public class AltaFragment extends Fragment {
             Toast.makeText(view.getContext(),"Debe completar el id del prducto", Toast.LENGTH_SHORT).show();
             valid = false;
         }else{
-            if(new BaseDatos().ValidateExistID(et_id.getText().toString())){
+            if(basedatos.ValidateExistID(view, et_id)){
                 Toast.makeText(view.getContext(),"El id ingresado ya existe", Toast.LENGTH_SHORT).show();
                 valid = false;
             }
