@@ -49,10 +49,9 @@ public class BaseDatos
         task.execute();
     }
 
-    public boolean ValidateExistID(View view, EditText etId) {
+    public void ValidateExistID(View view, EditText etId) {
         ProductoABM task = new ProductoABM(Accion.ValidateID, view.getContext(), etId);
         task.execute();
-        return true;
     }
 
 }

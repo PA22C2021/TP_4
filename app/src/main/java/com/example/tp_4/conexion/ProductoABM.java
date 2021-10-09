@@ -11,6 +11,7 @@ import com.example.tp_4.domain.Producto;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 
 public class ProductoABM extends AsyncTask<String, Void, String> {
