@@ -23,6 +23,7 @@ import com.example.tp_4.domain.Producto;
 public class ListadoFragment extends Fragment {
 
     ListView lvProducto;
+    BaseDatos baseDatos;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,6 +74,7 @@ public class ListadoFragment extends Fragment {
         // Me traigo el control del fragment.
         lvProducto = (ListView) view.findViewById(R.id.lvProductos);
 
+        baseDatos = new BaseDatos();
         SetProductos(view);
 
         return view;
@@ -80,7 +82,6 @@ public class ListadoFragment extends Fragment {
 
     private void SetProductos(View view)
     {
-        ArrayAdapter<Producto> arrayAdapter = new ArrayAdapter<Producto>(view.getContext(), android.R.layout.simple_list_item_1, new BaseDatos().GetProductos());
-        lvProducto.setAdapter(arrayAdapter);
+        baseDatos.SetProductos(view, lvProducto);
     }
 }

@@ -1,14 +1,16 @@
 package com.example.tp_4.domain;
 
-public class Producto
-{
+public class Producto {
+
+    public Producto() {
+    }
+
     public Producto(int id, String name, int stock, int idCategoria)
     {
         this.Id = id;
         this.Name = name;
         this.Stock = stock;
         this.IdCategoria = idCategoria;
-        this.Categoria = new BaseDatos().GetCategoriaId(idCategoria);
     }
 
     private int Id;

@@ -1,5 +1,15 @@
 package com.example.tp_4.domain;
 
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
+
+import com.example.tp_4.conexion.Accion;
+import com.example.tp_4.conexion.DataMainActivity;
+import com.example.tp_4.conexion.DataProducto;
+import com.example.tp_4.conexion.ProductoABM;
+
 import java.util.ArrayList;
 
 public class BaseDatos
@@ -9,70 +19,38 @@ public class BaseDatos
 
     }
 
-    public ArrayList<Categoria> GetCategorias()
+    public void SetCategoriasSpinner(View view, Spinner sp)
     {
-        ArrayList<Categoria> categoriasList = new ArrayList<Categoria>();
-        
-        // TODO: Quitar este seteo fijo e ir a buscar a la base los registros!!!!
-        categoriasList.add(new Categoria(1, "Fruta"));
-        categoriasList.add(new Categoria(2, "Verdura"));
-        categoriasList.add(new Categoria(3, "Limpieza"));
-        categoriasList.add(new Categoria(4, "Plomeria"));
-        categoriasList.add(new Categoria(5, "Carne"));
-
-        return categoriasList;
+        DataMainActivity task = new DataMainActivity(view.getContext(), sp);
+        task.execute();
     }
 
-    public ArrayList<Producto> GetProductos()
+    public void SetProductos(View view, ListView lvProductos)
     {
-        ArrayList<Producto> productosList = new ArrayList<Producto>();
-
-        // TODO: Quitar este seteo fijo e ir a buscar a la base los registros!!!!
-        productosList.add(new Producto(1, "Manzana", 5, 1));
-        productosList.add(new Producto(2, "Mandarina", 4, 2));
-        productosList.add(new Producto(3, "Lechuga", 3, 1));
-        productosList.add(new Producto(4, "Vacio", 5, 2));
-        productosList.add(new Producto(5, "Tira de asado",  4, 1));
-
-        return productosList;
+        DataProducto task = new DataProducto(view.getContext(), lvProductos);
+        task.execute();
     }
 
-    public Producto GetProductoId(String id)
+    public void InsertProductoId(View view, EditText etId, EditText etNom, EditText etSto, Spinner spCat)
     {
-        // Si el producto no está en la BD que quede en null.
-        Producto producto = null;
-
-        // TODO: Buscar el producto con el ID!!!
-        switch (id)
-        {
-            case "1": producto = new Producto(1, "Manzana", 5, 1); break;
-            case "2": producto = new Producto(2, "Mandarina", 4, 2); break;
-            case "3": producto = new Producto(3, "Lechuga", 3, 1); break;
-            case "4": producto = new Producto(4, "Vacio", 5, 2); break;
-            case "5": producto = new Producto(5, "Tira de asado", 4, 1); break;
-        }
-
-        return producto;
+        ProductoABM task = new ProductoABM(Accion.Alta, view.getContext(), etId, etNom, etSto, spCat);
+        task.execute();
     }
 
-    public Categoria GetCategoriaId(int id)
+    public void ModifyProductoId(View view, EditText etId, EditText etNom, EditText etSto, Spinner spCat)
     {
-        Categoria categoria = null;
+        ProductoABM task = new ProductoABM(Accion.Edicion, view.getContext(), etId, etNom, etSto, spCat);
+        task.execute();
+    }
 
-        // TODO: Buscar el producto con el ID!!!
-        switch (id)
-        {
-            case 1: categoria = new Categoria(1, "Fruta"); break;
-            case 2: categoria = new Categoria(2, "Verdura"); break;
-            case 3: categoria = new Categoria(3, "Limpieza"); break;
-            case 4: categoria = new Categoria(4, "Plomeria"); break;
-            case 5: categoria = new Categoria(5, "Carne"); break;
-        }
-
-        return categoria;
+    public void SetProductoId(View view, EditText etId, EditText etNom, EditText etSto, Spinner spCat)
+    {
+        ProductoABM task = new ProductoABM(Accion.GetId, view.getContext(), etId, etNom, etSto, spCat);
+        task.execute();
     }
 
     public boolean ValidateExistID(String toString) {
         return false;
     }
+
 }

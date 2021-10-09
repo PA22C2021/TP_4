@@ -4,11 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 
-import com.example.tp_4.R;
-import com.example.tp_4.domain.BaseDatos;
-import com.example.tp_4.domain.Categoria;
 import com.example.tp_4.domain.Producto;
 
 import java.sql.Connection;
@@ -17,18 +13,16 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import gui.fragment.ListadoFragment;
+public class DataProducto extends AsyncTask<String, Void, String> {
 
-public class DataMainActivity extends AsyncTask<String, Void, String> {
-
-    Spinner spinner;
+    ListView lvProductos;
     private Context context;
     private static String result2;
-    private static ArrayList<Categoria> listaCategoria;
+    private static ArrayList<Producto> listaProducto;
 
-    public DataMainActivity(Context ct, Spinner sp){
+    public DataProducto(Context ct, ListView lv){
         context = ct;
-        spinner = sp;
+        lvProductos = lv;
     }
 
     @Override
@@ -39,16 +33,15 @@ public class DataMainActivity extends AsyncTask<String, Void, String> {
             Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             Statement st = con.createStatement();
 
-            ResultSet rs = st.executeQuery("SELECT * FROM categoria");
+            ResultSet rs = st.executeQuery("SELECT * FROM articulo");
             result2 = " ";
 
-            listaCategoria = new ArrayList<Categoria>();
+            listaProducto = new ArrayList<Producto>();
             while(rs.next()) {
-                Categoria cat;
-                cat = new Categoria();
-                cat.setId(rs.getInt("id"));
-                cat.setName(rs.getString("descripcion"));
-                listaCategoria.add(cat);
+                Producto producto = new Producto();
+                producto.setId(rs.getInt("id"));
+                producto.setName(rs.getString("nombre"));
+                listaProducto.add(producto);
             }
 
             con.close();
@@ -65,7 +58,7 @@ public class DataMainActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
-        ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(context, R.layout.support_simple_spinner_dropdown_item, listaCategoria);
-        spinner.setAdapter(adapter);
+        ArrayAdapter<Producto> arrayAdapter = new ArrayAdapter<Producto>(context, android.R.layout.simple_list_item_1, listaProducto);
+        lvProductos.setAdapter(arrayAdapter);
     }
 }

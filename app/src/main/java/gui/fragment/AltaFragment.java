@@ -31,6 +31,7 @@ public class AltaFragment extends Fragment {
     private EditText et_id, et_nombre, et_stock;
     private Spinner spCategoriaAlta;
     private Button btnAgregar;
+    private BaseDatos basedatos;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,14 +87,8 @@ public class AltaFragment extends Fragment {
         et_stock = (EditText) view.findViewById(R.id.etStockAlta);
         spCategoriaAlta = (Spinner) view.findViewById(R.id.spCategoriaAlta);
 
-        SetCategoriasSpinner(view);
-
-        try {
-            Connection conectionBD = DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com:3306/sql10442660", "sql10442660", "5vu3EXhTp4");
-        } catch (SQLException throwables)
-        {
-            Toast.makeText(view.getContext(), throwables.toString(), Toast.LENGTH_SHORT).show();
-        }
+        basedatos = new BaseDatos();
+        basedatos.SetCategoriasSpinner(view, spCategoriaAlta);
 
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -104,20 +99,14 @@ public class AltaFragment extends Fragment {
         return view;
     }
 
-    private void SetCategoriasSpinner(View view)
-    {
-        ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(view.getContext(), R.layout.support_simple_spinner_dropdown_item, new BaseDatos().GetCategorias());
-        spCategoriaAlta.setAdapter(adapter);
-    }
-
     public void AgregarProducto(View view)
     {
         // TODO: Validar si existe el ID en la BBDD
         if(ValidateFields(view)){
             // TODO: Grabar en base de datos
-            Toast.makeText(view.getContext(), "Producto agregado", Toast.LENGTH_SHORT).show();
 
-            ClearFields();
+            basedatos.InsertProductoId(view, et_id, et_nombre, et_stock, spCategoriaAlta);
+            Toast.makeText(view.getContext(), "Producto agregado", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -151,12 +140,5 @@ public class AltaFragment extends Fragment {
             valid = false;
         }
         return valid;
-    }
-
-    private void ClearFields(){
-        et_id.setText("");
-        et_nombre.setText("");
-        et_stock.setText("");
-        spCategoriaAlta.setSelection(-1);
     }
 }

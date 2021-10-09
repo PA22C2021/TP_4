@@ -28,6 +28,7 @@ public class ModificacionFragment extends Fragment {
     Spinner spCategoriaEdicion;
     EditText etIdModificacion, etNombreProducto, etStock;
     Button btnBuscar, btnModificar;
+    BaseDatos baseDatos;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,7 +84,8 @@ public class ModificacionFragment extends Fragment {
         spCategoriaEdicion = (Spinner) view.findViewById(R.id.spCategoriaModificacion);
         btnModificar = (Button) view.findViewById(R.id.btnModificar);
 
-        SetCategoriasSpinner(view);
+        baseDatos = new BaseDatos();
+        baseDatos.SetCategoriasSpinner(view, spCategoriaEdicion);
 
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -101,12 +103,6 @@ public class ModificacionFragment extends Fragment {
         return view;
     }
 
-    private void SetCategoriasSpinner(View view)
-    {
-        ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(view.getContext(), R.layout.support_simple_spinner_dropdown_item, new BaseDatos().GetCategorias());
-        spCategoriaEdicion.setAdapter(adapter);
-    }
-
     public void BuscarProducto(View view)
     {
         String id = etIdModificacion.getText().toString();
@@ -117,17 +113,7 @@ public class ModificacionFragment extends Fragment {
             return;
         }
 
-        Producto producto = new BaseDatos().GetProductoId(id);
-
-        if (producto == null)
-        {
-            Toast.makeText(view.getContext(), "El producto (" + id + ") no se encuentra registrado.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        etNombreProducto.setText(producto.getName());
-        etStock.setText(String.valueOf(producto.getStock()));
-        spCategoriaEdicion.setSelection(producto.getIdCategoria() - 1);
+        baseDatos.SetProductoId(view, etIdModificacion, etNombreProducto, etStock, spCategoriaEdicion);
     }
 
     public void ModificarProducto(View view)
@@ -142,9 +128,8 @@ public class ModificacionFragment extends Fragment {
 
         if(ValidateFields(view)){
             // TODO: Grabar en base de datos
+            baseDatos.ModifyProductoId(view, etIdModificacion, etNombreProducto, etStock, spCategoriaEdicion);
             Toast.makeText(view.getContext(), "Producto modificado", Toast.LENGTH_SHORT).show();
-
-            ClearFields();
         }
     }
 
@@ -169,12 +154,5 @@ public class ModificacionFragment extends Fragment {
         }
 
         return valid;
-    }
-
-    private void ClearFields(){
-        etIdModificacion.setText("");
-        etNombreProducto.setText("");
-        etStock.setText("");
-        spCategoriaEdicion.setSelection(-1);
     }
 }
