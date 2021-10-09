@@ -2,6 +2,7 @@ package com.example.tp_4;
 
 import android.os.Bundle;
 
+import com.example.tp_4.conexion.DataMainActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -33,5 +34,12 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
 
+        Connect();
+
+    }
+
+    public void Connect() {
+        DataMainActivity task = new DataMainActivity(this);
+        task.execute();
     }
 }

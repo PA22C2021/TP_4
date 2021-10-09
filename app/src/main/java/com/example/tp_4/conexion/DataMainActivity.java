@@ -17,15 +17,14 @@ import gui.fragment.ListadoFragment;
 
 public class DataMainActivity extends AsyncTask<String, Void, String> {
 
-    private ListView lvClientes;
     private Context context;
     private static String result2;
     private static ArrayList<Categoria> listaCategoria = new ArrayList<Categoria>();
 
-    public DataMainActivity(ListView lv, Context ct){
-        lvClientes = lv;
+    public DataMainActivity(Context ct){
         context = ct;
     }
+
 
 
     @Override
@@ -35,8 +34,16 @@ public class DataMainActivity extends AsyncTask<String, Void, String> {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Categorias");
+            ResultSet rs = st.executeQuery("SELECT * FROM categoria");
             result2 = " ";
+
+            Categoria cat;
+            while(rs.next()) {
+                cat = new Categoria();
+                cat.setId(rs.getInt("id"));
+                cat.setName(rs.getString("descripcion"));
+                listaCategoria.add(cat);
+            }
 
             response = "Conexion exitosa";
         }
@@ -50,7 +57,7 @@ public class DataMainActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
-        ClienteAdapter adapter = new ClienteAdapter(context, listaClientes);
-        lvClientes.setAdapter(adapter);
+        /*ClienteAdapter adapter = new ClienteAdapter(context, listaClientes);
+        lvClientes.setAdapter(adapter);*/
     }
 }
