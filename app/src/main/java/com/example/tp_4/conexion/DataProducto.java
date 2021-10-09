@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.tp_4.domain.Categoria;
 import com.example.tp_4.domain.Producto;
 
 import java.sql.Connection;
@@ -33,7 +34,7 @@ public class DataProducto extends AsyncTask<String, Void, String> {
             Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             Statement st = con.createStatement();
 
-            ResultSet rs = st.executeQuery("SELECT * FROM articulo");
+            ResultSet rs = st.executeQuery("SELECT a.*, c.descripcion as categoria FROM `articulo` a LEFT JOIN `categoria` c ON a.idCategoria = c.id");
             result2 = " ";
 
             listaProducto = new ArrayList<Producto>();
@@ -41,6 +42,8 @@ public class DataProducto extends AsyncTask<String, Void, String> {
                 Producto producto = new Producto();
                 producto.setId(rs.getInt("id"));
                 producto.setName(rs.getString("nombre"));
+                producto.setStock(rs.getInt("stock"));
+                producto.setCategoria(new Categoria(rs.getInt("idCategoria"), rs.getString("categoria")));
                 listaProducto.add(producto);
             }
 
